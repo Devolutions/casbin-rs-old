@@ -1,6 +1,5 @@
 use std::ops::DerefMut;
 use std::sync::{Arc, Mutex};
-use std::any::Any;
 
 use eval::{to_value, Expr};
 
@@ -11,8 +10,6 @@ use crate::model::{get_function_map, FunctionMap};
 use crate::persist::Adapter;
 use crate::rbac::{DefaultRoleManager, RoleManager, MatchingFunction};
 use crate::util::builtin_operators;
-use std::collections::HashMap;
-use std::process::Output;
 
 mod internal_api;
 pub mod management_api;
@@ -323,8 +320,8 @@ mod tests {
     use super::*;
 
     use crate::persist::file_adapter::FileAdapter;
-    use std::ptr::null;
-    use crate::util::{array_2_d_equals, array_equals};
+    
+    use crate::util::{array_2_d_equals};
 
     #[test]
     fn test_match_in_memory() {
@@ -477,7 +474,7 @@ mod tests {
         [matchers]\n
         m = g(r.sub, p.sub) && (r.obj == p.obj) && (r.act == p.act)";
 
-        let mut model = Model::from_string(text).unwrap();
+        let model = Model::from_string(text).unwrap();
         let adapter = FileAdapter::new("examples/empty.csv", false);
         let mut enforcer = DefaultEnforcer::new(model, adapter).expect("failed to create instance of Enforcer");
 
@@ -531,7 +528,7 @@ mod tests {
     #[ignore]
     /// Test failed because Eval crates does not recognize `in` operator (jtrepanier)
     fn test_matcher_using_in_operator(){
-        let mut model = Model::from_file("examples/rbac_model_matcher_using_in_op.conf").unwrap();
+        let model = Model::from_file("examples/rbac_model_matcher_using_in_op.conf").unwrap();
         let adapter = FileAdapter::new("examples/empty.csv", false);
         let mut enforcer = DefaultEnforcer::new(model, adapter).expect("failed to create instance of Enforcer");
 
@@ -547,12 +544,12 @@ mod tests {
 
     #[test]
     fn test_reload_policy(){
-        let mut model = Model::from_file("examples/rbac_model.conf").unwrap();
+        let model = Model::from_file("examples/rbac_model.conf").unwrap();
         let adapter = FileAdapter::new("examples/rbac_policy.csv", false);
         let mut enforcer = DefaultEnforcer::new(model, adapter).expect("failed to create instance of Enforcer");
 
         enforcer.load_policy().unwrap();
-        let mut policy = enforcer.get_policy();
+        let policy = enforcer.get_policy();
 
         let test_policy =
             vec![
@@ -569,14 +566,14 @@ mod tests {
     #[ignore]
     // TODO(jtrepanier) add save policy function to Enforcer
     fn test_save_policy(){
-        let mut model = Model::from_file("examples/rbac_model.conf").unwrap();
+        let model = Model::from_file("examples/rbac_model.conf").unwrap();
         let adapter = FileAdapter::new("examples/rbac_policy.csv", false);
-        let mut enforcer = DefaultEnforcer::new(model, adapter).expect("failed to create instance of Enforcer");
+        let _enforcer = DefaultEnforcer::new(model, adapter).expect("failed to create instance of Enforcer");
     }
 
     #[test]
     fn test_clear_policy(){
-        let mut model = Model::from_file("examples/rbac_model.conf").unwrap();
+        let model = Model::from_file("examples/rbac_model.conf").unwrap();
         let adapter = FileAdapter::new("examples/rbac_policy.csv", false);
         let mut enforcer = DefaultEnforcer::new(model, adapter).expect("failed to create instance of Enforcer");
         enforcer.clear_policy();
@@ -584,7 +581,7 @@ mod tests {
 
     #[test]
     fn test_role_links(){
-        let mut model = Model::from_file("examples/rbac_model.conf").unwrap();
+        let model = Model::from_file("examples/rbac_model.conf").unwrap();
         let adapter = FileAdapter::new("examples/empty.csv", false);
         let mut enforcer = DefaultEnforcer::new(model, adapter).expect("failed to create instance of Enforcer");
         enforcer.build_role_links().unwrap();

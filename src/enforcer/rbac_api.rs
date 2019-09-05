@@ -122,7 +122,7 @@ impl<A: Adapter, RM: RoleManager + Send + 'static, E: Effector> Enforcer<A, RM, 
             let roles:Vec<String> = self.get_roles_for_user(&name, None).clone();
             for i in 0..roles.len(){
                 match role_set.get(&roles[i]){
-                    Some(r) => (),
+                    Some(_r) => (),
                     None => {
                         res.push(roles[i].clone());
                         q.push(roles[i].clone());
@@ -160,7 +160,7 @@ mod tests {
 
     #[test]
     fn test_role_api(){
-        let mut model = Model::from_file("examples/rbac_model.conf").unwrap();
+        let model = Model::from_file("examples/rbac_model.conf").unwrap();
         let adapter = FileAdapter::new("examples/rbac_policy.csv", false);
 
         let mut enforcer = DefaultEnforcer::new(model, adapter).unwrap();
@@ -223,7 +223,7 @@ mod tests {
 
     #[test]
     fn test_permission_api(){
-        let mut model = Model::from_file("examples/basic_without_resources_model.conf").unwrap();
+        let model = Model::from_file("examples/basic_without_resources_model.conf").unwrap();
         let adapter = FileAdapter::new("examples/basic_without_resources_policy.csv", false);
         let mut enforcer = DefaultEnforcer::new(model, adapter).unwrap();
 
@@ -272,9 +272,9 @@ mod tests {
 
     #[test]
     fn test_implicit_role_api(){
-        let mut model = Model::from_file("examples/rbac_model.conf").unwrap();
+        let model = Model::from_file("examples/rbac_model.conf").unwrap();
         let adapter = FileAdapter::new("examples/rbac_with_hierarchy_policy.csv", false);
-        let mut enforcer = DefaultEnforcer::new(model, adapter).unwrap();
+        let enforcer = DefaultEnforcer::new(model, adapter).unwrap();
 
         assert_eq!(array_2_d_equals(&enforcer.get_permissions_for_user("alice"), &vec![vec!["alice".to_owned(), "data1".to_owned(), "read".to_owned()]]), true);
         assert_eq!(array_2_d_equals(&enforcer.get_permissions_for_user("bob"), &vec![vec!["bob".to_owned(), "data2".to_owned(), "write".to_owned()]]), true);
@@ -285,9 +285,9 @@ mod tests {
 
     #[test]
     fn test_implicit_permission_api(){
-        let mut model = Model::from_file("examples/rbac_model.conf").unwrap();
+        let model = Model::from_file("examples/rbac_model.conf").unwrap();
         let adapter = FileAdapter::new("examples/rbac_with_hierarchy_policy.csv", false);
-        let mut enforcer = DefaultEnforcer::new(model, adapter).unwrap();
+        let enforcer = DefaultEnforcer::new(model, adapter).unwrap();
 
         assert_eq!(array_2_d_equals(&enforcer.get_permissions_for_user("alice"), &vec![vec!["alice".to_owned(), "data1".to_owned(), "read".to_owned()]]), true);
         assert_eq!(array_2_d_equals(&enforcer.get_permissions_for_user("bob"), &vec![vec!["bob".to_owned(), "data2".to_owned(), "write".to_owned()]]), true);

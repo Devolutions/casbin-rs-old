@@ -36,24 +36,24 @@ impl Adapter for FileAdapter {
         Ok(())
     }
 
-    fn save_policy(&self, model: &mut Model) -> Result<(), Error> {
+    fn save_policy(&self, _model: &mut Model) -> Result<(), Error> {
         unimplemented!()
     }
 
-    fn add_policy(&self, sec: &str, ptype: &str, rule: Vec<String>) -> Result<(), Error> {
+    fn add_policy(&self, _sec: &str, _ptype: &str, _rule: Vec<String>) -> Result<(), Error> {
         unimplemented!()
     }
 
-    fn remove_policy(&self, sec: &str, ptype: &str, rule: Vec<String>) -> Result<(), Error> {
+    fn remove_policy(&self, _sec: &str, _ptype: &str, _rule: Vec<String>) -> Result<(), Error> {
         unimplemented!()
     }
 
     fn remove_filtered_policy(
         &self,
-        sec: &str,
-        ptype: &str,
-        field_index: i32,
-        field_values: Vec<String>,
+        _sec: &str,
+        _ptype: &str,
+        _field_index: i32,
+        _field_values: Vec<String>,
     ) -> Result<(), Error> {
         unimplemented!()
     }
