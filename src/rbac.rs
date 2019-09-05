@@ -7,7 +7,7 @@ mod default_role_manager;
 
 pub use crate::rbac::default_role_manager::DefaultRoleManager;
 
-pub type Function = Fn(&str, &str) -> bool + Sync + Send;
+pub type Function = dyn Fn(&str, &str) -> bool + Sync + Send;
 
 pub struct MatchingFunction(pub Box<Function>);
 

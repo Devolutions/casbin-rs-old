@@ -4,8 +4,6 @@ use ipnet::Ipv4Net;
 use iprange::IpRange;
 use lazy_static::lazy_static;
 use regex::Regex;
-use crate::rbac::RoleManager;
-use crate::rbac::DefaultRoleManager;
 
 lazy_static! {
     static ref REGEX_KEY_MATCH2: Regex = Regex::new(r"(.*):[^/]+(.*)").unwrap();

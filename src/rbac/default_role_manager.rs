@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 use std::sync::{Arc, Mutex};
-use std::fmt;
+
 
 use crate::error::Error;
 use crate::rbac::{Role, RoleManager, MatchingFunction};
@@ -101,7 +101,7 @@ impl RoleManager for DefaultRoleManager {
         unimplemented!()
     }
 
-    fn add_matching_function(&mut self, name: &str, matching_func: MatchingFunction){
+    fn add_matching_function(&mut self, _name: &str, matching_func: MatchingFunction){
         self.has_pattern = true;
         self.matching_function = Some(matching_func);
     }
@@ -174,7 +174,7 @@ impl DefaultRoleManager {
         }
     }
 
-    fn add_matching_function(&mut self, name: &str, matching_func: MatchingFunction){
+    fn add_matching_function(&mut self, _name: &str, matching_func: MatchingFunction){
         self.has_pattern = true;
         self.matching_function = Some(matching_func);
     }

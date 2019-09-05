@@ -3,7 +3,7 @@ use std::fmt;
 
 use crate::util::builtin_operators;
 
-pub type Function = Fn(&str, &str) -> bool + Sync + Send;
+pub type Function = dyn Fn(&str, &str) -> bool + Sync + Send;
 
 pub struct FunctionMap(pub HashMap<&'static str, Box<Function>>);
 
